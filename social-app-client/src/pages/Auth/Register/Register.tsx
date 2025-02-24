@@ -1,9 +1,8 @@
 import {Button, Input} from "@mantine/core";
-import "./Register.css";
 
 export default function Login() {
   return (
-    <div className="login-background h-screen flex items-center justify-center">
+    <div className="bg-gradient-to-br from-cyan-400/40 to-white h-screen flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         <h2 className="text-3xl font-bold text-center">Register</h2>
         <form className="mt-4">
