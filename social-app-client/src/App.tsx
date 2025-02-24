@@ -1,14 +1,23 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
-import Auth from "./pages/Auth/Auth";
+import Login from "./pages/Auth/Login/Login";
+import Register from "./pages/Auth/Register/Register";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<Navigate to="home" />} />
-        <Route path="home" element={<Home />} />
-        <Route path="auth" element={<Auth />} />
+        <Route path="/" element={<Navigate to="/login" />} />
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route path="/home" element={
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        } />
       </Routes>
     </div>
   )

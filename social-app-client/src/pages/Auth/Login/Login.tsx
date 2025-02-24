@@ -1,0 +1,38 @@
+import {Button, Input} from "@mantine/core";
+import "./Login.css";
+
+export default function Login() {
+  return (
+    <div className="login-background h-screen flex items-center justify-center">
+      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
+        <h2 className="text-3xl font-bold text-center">Login</h2>
+        <form className="mt-4">
+          <Input.Wrapper label="Email" withAsterisk size="md">
+            <Input
+              className="w-full"
+              type="email"
+              placeholder="Enter email address"
+            />
+          </Input.Wrapper>
+          <Input.Wrapper
+            label="Password"
+            withAsterisk
+            size="md"
+            className="mt-4"
+          >
+            <Input type="password" placeholder="Enter password" />
+          </Input.Wrapper>
+          <Button
+            variant="gradient"
+            gradient={{from: "violet", to: "indigo", deg: 90}}
+            className="mt-4"
+            fullWidth
+          >
+            Submit
+          </Button>
+        </form>
+        <p className="mt-4! text-md!">Don't have an account? <span className="text-sky-400 font-semibold cursor-pointer">Register Now</span> </p>
+      </div>
+    </div>
+  );
+}
