@@ -33,6 +33,6 @@ socketHandler(io)
 const api_V1 = require("./src/routes/api");
 app.use('/api', api_V1);
 
-server.listen(3000, () => {
-  console.log(`Server running: http://localhost:${3000}`);
+server.listen(process.env.PORT, () => {
+  console.log(`Server running: http://localhost:${process.env.PORT}`);
 });

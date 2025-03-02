@@ -1,10 +1,27 @@
 const UserModel = require("../models/User");
 const { getUserByEmail } = require("../services/auth.services");
+const { hashPassword, comparePassword } = require("../utils/hash");
 const { registerSchema } = require("../utils/validate");
 
 module.exports = {
   login: async (req, res) => {
-    return res.status(200).json({ message: "ok" });
+    const { email, password } = req.body;
+
+    const user = await getUserByEmail(email);
+
+    if (!user) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Email or Password incorrect" });
+    }
+
+    if (!comparePassword(password, user.password)) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Email or Password incorrect" });
+    }
+
+    return res.status(200).json({ success: true, message: "Login successful" });
   },
   register: async (req, res) => {
     try {
@@ -21,7 +38,7 @@ module.exports = {
       const newUser = new UserModel({
         fullName,
         email,
-        password,
+        password: hashPassword(password),
       });
 
       await newUser.save();
