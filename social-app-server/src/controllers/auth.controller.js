@@ -28,12 +28,13 @@ module.exports = {
       const refreshToken = createRefreshToken(user._id);
 
       await redis.connect();
-      await redis.set(`RefreshToken:${user.id}`, refreshToken, "EX", 7 * 24 * 60 * 60);
+      await redis.set(`RefreshToken:${user.id}`, refreshToken, 7 * 24 * 60 * 60);
       await redis.close();
 
       return res.status(200).json({ success: true, message: "Login successful", accessToken, refreshToken, user });
     } catch (error) {
-      res.status(500).json({ error: err.message });
+      console.error("Login failed:", error);
+      res.status(500).json({ error: error.message });
     }
   },
   register: async (req, res) => {
@@ -74,7 +75,7 @@ module.exports = {
       }
 
       await redis.connect();
-      await redis.set(`Blacklist:${accessToken}`, "revoked", "EX", 24 * 60 * 60); // Hết hạn sau 1 ngày
+      await redis.set(`Blacklist:${accessToken}`, "revoked", 24 * 60 * 60); // Hết hạn sau 1 ngày
       await redis.close();
 
       return res.status(200).json({ message: "Logout successfully" });

@@ -4,6 +4,7 @@ import BaseTextInput from "../../../components/Input";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {Controller, useForm} from "react-hook-form";
+import authorizedAxiosInstance from "../../../config/authorizedAxios";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ export default function Login() {
     control,
     formState: {errors},
     handleSubmit,
+    reset
   } = useForm({
     defaultValues: {
       email: "",
@@ -25,8 +27,18 @@ export default function Login() {
     ),
   });
 
-  const handleFormSubmit = handleSubmit((data) => {
-    console.log(data);
+  const handleFormSubmit = handleSubmit(async (data) => {
+    const response = await authorizedAxiosInstance.post(
+      `${import.meta.env.VITE_SERVER_API}/auth/login`,
+      data
+    );
+    const {accessToken, refreshToken, success} = response.data;
+    if (success) {
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      reset();
+      navigate("/");
+    }
   });
 
   return (
