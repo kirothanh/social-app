@@ -5,6 +5,7 @@ import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {Controller, useForm} from "react-hook-form";
 import authorizedAxiosInstance from "../../../config/authorizedAxios";
+import { notifications } from '@mantine/notifications';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -28,16 +29,38 @@ export default function Login() {
   });
 
   const handleFormSubmit = handleSubmit(async (data) => {
-    const response = await authorizedAxiosInstance.post(
-      `${import.meta.env.VITE_SERVER_API}/auth/login`,
-      data
-    );
-    const {accessToken, refreshToken, success} = response.data;
-    if (success) {
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("refreshToken", refreshToken);
-      reset();
-      navigate("/");
+    try {
+      const response = await authorizedAxiosInstance.post(
+        `${import.meta.env.VITE_SERVER_API}/auth/login`,
+        data
+      );
+  
+      const { accessToken, refreshToken, success, message } = response.data;
+  
+      if (success) {
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("refreshToken", refreshToken);
+        
+        notifications.show({
+          title: "Login Successful",
+          message: message,
+          color: "teal",
+          autoClose: 3000,
+          position: 'top-right',
+        });
+  
+        reset();
+        navigate("/");
+      } 
+    } catch (error:any) {
+      console.error('Error during login:', error);
+      notifications.show({
+        title: "Login Error",
+        message:  error?.response?.data?.message || "An error occurred",
+        color: "red",
+        autoClose: 3000,
+        position: 'top-right',
+      });
     }
   });
 
@@ -93,6 +116,8 @@ export default function Login() {
           </span>{" "}
         </p>
       </div>
+      <div>
+    </div>
     </div>
   );
 }

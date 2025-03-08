@@ -5,6 +5,7 @@ import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {Controller, useForm} from "react-hook-form";
 import authorizedAxiosInstance from "../../../config/authorizedAxios";
+import {notifications} from "@mantine/notifications";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function Login() {
     control,
     formState: {errors},
     handleSubmit,
-    reset
+    reset,
   } = useForm({
     defaultValues: {
       fullName: "",
@@ -23,23 +24,48 @@ export default function Login() {
     resolver: yupResolver(
       yup.object().shape({
         fullName: yup.string().required("Full name is required"),
-        email: yup.string().email().required("Email is required"),
+        email: yup
+          .string()
+          .matches(
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            "Invalid email format"
+          )
+          .required("Email is required"),
         password: yup.string().min(6).required("Password is required"),
       })
     ),
   });
 
-  const handleFormSubmit = handleSubmit(async(data) => {
-    console.log(data);
-    const response = await authorizedAxiosInstance.post(
-      `${import.meta.env.VITE_SERVER_API}/auth/register`,
-      data
-    );
+  const handleFormSubmit = handleSubmit(async (data) => {
+    try {
+      const response = await authorizedAxiosInstance.post(
+        `${import.meta.env.VITE_SERVER_API}/auth/register`,
+        data
+      );
 
-    const { success, message} = response.data;
-    if (success) {
-      reset();
-      navigate("/login");
+      const {success, message} = response.data;
+      if (success) {
+        reset();
+
+        notifications.show({
+          title: "Register Successful",
+          message: message,
+          color: "teal",
+          autoClose: 3000,
+          position: "top-right",
+        });
+
+        navigate("/login");
+      }
+    } catch (error: any) {
+      console.error("Error during register:", error);
+      notifications.show({
+        title: "Register Error",
+        message: error?.response?.data?.message || "An error occurred",
+        color: "red",
+        autoClose: 3000,
+        position: "top-right",
+      });
     }
   });
 
@@ -69,7 +95,7 @@ export default function Login() {
               <BaseTextInput
                 {...field}
                 error={errors.email?.message}
-                type="email"
+                type="text"
                 placeholder="Enter email address"
                 label="Email"
               />
