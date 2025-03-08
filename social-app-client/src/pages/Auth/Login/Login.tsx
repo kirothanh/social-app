@@ -4,10 +4,13 @@ import BaseTextInput from "../../../components/Input";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {Controller, useForm} from "react-hook-form";
-import authorizedAxiosInstance from "../../../config/authorizedAxios";
 import { notifications } from '@mantine/notifications';
+import { useDispatch } from "react-redux";
+import { getUserFromLogin } from "../../../store/slices/userSlice";
+import { AppDispatch } from "../../../store/store";
 
 export default function Login() {
+  const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate();
 
   const {
@@ -30,12 +33,8 @@ export default function Login() {
 
   const handleFormSubmit = handleSubmit(async (data) => {
     try {
-      const response = await authorizedAxiosInstance.post(
-        `${import.meta.env.VITE_SERVER_API}/auth/login`,
-        data
-      );
-  
-      const { accessToken, refreshToken, success, message } = response.data;
+      const result =  dispatch(getUserFromLogin(data))
+      const { accessToken, refreshToken, success, message } = (await result).payload;
   
       if (success) {
         localStorage.setItem("accessToken", accessToken);

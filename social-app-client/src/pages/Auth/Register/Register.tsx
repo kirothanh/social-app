@@ -6,8 +6,12 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {Controller, useForm} from "react-hook-form";
 import authorizedAxiosInstance from "../../../config/authorizedAxios";
 import {notifications} from "@mantine/notifications";
+import { getUserFromRegister } from "../../../store/slices/userSlice";
+import { AppDispatch } from "../../../store/store";
+import { useDispatch } from "react-redux";
 
 export default function Login() {
+  const dispatch = useDispatch<AppDispatch>()
   const navigate = useNavigate();
 
   const {
@@ -38,12 +42,8 @@ export default function Login() {
 
   const handleFormSubmit = handleSubmit(async (data) => {
     try {
-      const response = await authorizedAxiosInstance.post(
-        `${import.meta.env.VITE_SERVER_API}/auth/register`,
-        data
-      );
-
-      const {success, message} = response.data;
+      const result =  dispatch(getUserFromRegister(data))
+      const {success, message} = (await result).payload;
       if (success) {
         reset();
 
@@ -58,7 +58,8 @@ export default function Login() {
         navigate("/login");
       }
     } catch (error: any) {
-      console.error("Error during register:", error);
+      console.error("Error during register:", error
+      );
       notifications.show({
         title: "Register Error",
         message: error?.response?.data?.message || "An error occurred",

@@ -7,12 +7,21 @@ import Layout from "./layouts/Layout";
 import Profile from "./pages/Profile";
 import Notifications from "./pages/Notifications";
 import Messages from "./pages/Messages";
+import AuthRoute from "./components/AuthRoute";
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={
+        <AuthRoute>
+          <Login />
+        </AuthRoute>
+      } />
+      <Route path="/register" element={
+        <AuthRoute>
+          <Register />
+        </AuthRoute>
+      } />
       <Route path="/" element={
         <ProtectedRoute>
           <Layout>

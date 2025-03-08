@@ -1,10 +1,15 @@
-import { Navigate } from "react-router-dom";
-import { ReactNode } from "react";
+import { useNavigate } from "react-router-dom";
+import { ReactNode, useEffect } from "react";
 
 export default function ProtectedRoute({ children }: { children: ReactNode }) {
-  const isAuthenticated = false;
+  const accessToken = localStorage.getItem('accessToken');
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    if (!accessToken) {
+      navigate('/login');
+    }
+  }, [accessToken, navigate]);
 
-  return (
-    isAuthenticated ? children : <Navigate to="/login" />
-  )
+  return <>{accessToken ? children : null}</>;
 }
