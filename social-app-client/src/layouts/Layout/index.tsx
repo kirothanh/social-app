@@ -15,7 +15,7 @@ const Layout = ({ children }: ILayoutProps) => {
       <div className="w-[275px] bg-white md:block">
         <Sidebar activePath={location.pathname}/>
       </div>
-      <div className="w-full max-w-2xl border-x border-gray-200 p-4">
+      <div className="w-full max-w-2xl border-x border-gray-200 p-2">
         {children}
       </div>
       <div className="w-[350px] hidden lg:block ml-4">

@@ -1,6 +1,7 @@
-import {Avatar, Group, Text, UnstyledButton} from "@mantine/core";
+import {Group, Text, UnstyledButton} from "@mantine/core";
 import {forwardRef} from "react";
-import {PiGreaterThanThin} from "react-icons/pi";
+import {PiDotsThreeOutlineFill} from "react-icons/pi";
+import BaseAvatar from "../Avatar";
 
 interface UserButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   image: string;
@@ -8,36 +9,6 @@ interface UserButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   email: string;
   icon?: React.ReactNode;
 }
-
-// const UserButton = ({ image, name, email, icon, ...others }: UserButtonProps, ref) => {
-//   return (
-//     <UnstyledButton
-//       ref={ref}
-//       style={{
-//         padding: 'var(--mantine-spacing-md)',
-//         color: 'var(--mantine-color-text)',
-//         borderRadius: 'var(--mantine-radius-sm)',
-//       }}
-//       {...others}
-//     >
-//       <Group>
-//         <Avatar src={image} radius="xl" />
-
-//         <div style={{ flex: 1 }}>
-//           <Text size="sm" fw={500}>
-//             {name}
-//           </Text>
-
-//           <Text c="dimmed" size="xs">
-//             {email}
-//           </Text>
-//         </div>
-
-//         {icon || <PiGreaterThanThin size={16} />}
-//       </Group>
-//     </UnstyledButton>
-//   )
-// }
 
 const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
   ({image, name, email, icon, ...others}: UserButtonProps, ref) => {
@@ -56,7 +27,7 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
         {...others}
       >
         <Group>
-          <Avatar src={image} radius="xl" />
+          <BaseAvatar src={image} radius="xl" />
 
           <div style={{flex: 1}}>
             <Text size="sm" fw={500} className="hidden md:block">
@@ -68,7 +39,7 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
             </Text>
           </div>
 
-          {icon || <PiGreaterThanThin size={16} className="hidden md:block"/>}
+          {icon || <PiDotsThreeOutlineFill size={16} className="hidden md:block"/>}
         </Group>
       </UnstyledButton>
     );
