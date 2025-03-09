@@ -78,9 +78,9 @@ module.exports = {
       await redis.set(`Blacklist:${accessToken}`, "revoked", 24 * 60 * 60); // Hết hạn sau 1 ngày
       await redis.close();
 
-      return res.status(200).json({ message: "Logout successfully" });
+      return res.status(200).json({ success: true, message: "Logout successfully" });
     } catch (error) {
-      return res.status(500).json({ message: "Logout failed", error: error.message });
+      return res.status(500).json({ success: false, message: "Logout failed", error: error.message });
     }
   },
   refreshToken: async (req, res) => {

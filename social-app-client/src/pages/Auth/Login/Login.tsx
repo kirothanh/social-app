@@ -8,6 +8,7 @@ import { notifications } from '@mantine/notifications';
 import { useDispatch } from "react-redux";
 import { getUserFromLogin } from "../../../store/slices/userSlice";
 import { AppDispatch } from "../../../store/store";
+import BasePasswordInput from "../../../components/PasswordInput";
 
 export default function Login() {
   const dispatch = useDispatch<AppDispatch>()
@@ -86,7 +87,7 @@ export default function Login() {
             name="password"
             control={control}
             render={({field}) => (
-              <BaseTextInput
+              <BasePasswordInput
                 {...field}
                 error={errors.password?.message}
                 type="password"
