@@ -30,16 +30,16 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
           <BaseAvatar src={image} radius="xl" />
 
           <div style={{flex: 1}}>
-            <Text size="sm" fw={500} className="hidden md:block">
+            <Text size="sm" fw={500} className="hidden sm:block">
               {name}
             </Text>
 
-            <Text c="dimmed" size="xs" className="hidden md:block">
+            <Text c="dimmed" size="xs" className="hidden sm:block">
               {email}
             </Text>
           </div>
 
-          {icon || <PiDotsThreeOutlineFill size={16} className="hidden md:block"/>}
+          {icon || <PiDotsThreeOutlineFill size={16} className="hidden sm:block"/>}
         </Group>
       </UnstyledButton>
     );

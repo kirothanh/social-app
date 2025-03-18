@@ -1,6 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authorizedAxiosInstance from "../../config/authorizedAxios";
 
+const getUserProfile = createAsyncThunk("user/getUserProfile", async () => {
+  try {
+    const res = await authorizedAxiosInstance.get("/user");
+    console.log('resss', res);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+  }
+});
+
 const getUserFromLogin = createAsyncThunk(
   "user/getUserFromLogin",
   async (data: object) => {
@@ -38,12 +48,16 @@ export const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getUserFromLogin.fulfilled, (state, action) => {
-      state.userValue = action.payload
-    });
-  }
+    builder
+      .addCase(getUserFromLogin.fulfilled, (state, action) => {
+        state.userValue = action.payload;
+      })
+      .addCase(getUserProfile.fulfilled, (state, action) => {
+        state.userValue = action.payload;
+      });
+  },
 });
 
-export { getUserFromLogin, getUserFromRegister };
+export { getUserFromLogin, getUserFromRegister, getUserProfile };
 
 export default userSlice.reducer;

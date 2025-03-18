@@ -12,7 +12,7 @@ const Layout = ({ children }: ILayoutProps) => {
 
   return (
     <div className="flex min-h-screen justify-center">
-      <div className="w-[275px] bg-white md:block">
+      <div className=" bg-white md:block">
         <Sidebar activePath={location.pathname}/>
       </div>
       <div className="w-full max-w-2xl border-x border-gray-200 p-2">
