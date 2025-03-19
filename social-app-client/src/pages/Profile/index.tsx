@@ -2,8 +2,12 @@ import BaseButton from "../../components/Button";
 import BaseAvatar from "../../components/Avatar";
 import BaseImage from "../../components/BaseImage";
 import { Tabs } from "@mantine/core";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 const Profile = () => {
+  const { user } = useSelector((state: RootState) => state.user.userValue);
+
   return (
     <>
       <div>
@@ -28,7 +32,7 @@ const Profile = () => {
       </div>
 
       <div className="p-4 -mt-16 space-y-2">
-        <h2 className="text-2xl font-semibold capitalize">John Doe</h2>
+        <h2 className="text-2xl font-semibold capitalize">{user?.fullName}</h2>
         <p className="text-gray-500">Description in here</p>
         <div className="flex items-center mt-3 space-x-4">
           <p className="text-gray-500">

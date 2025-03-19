@@ -7,8 +7,7 @@ import {handleLogoutAPI} from "../../api";
 
 const UserMenu = () => {
   const navigate = useNavigate();
-  const userValue = useSelector((state: RootState) => state.user.userValue);
-  console.log("first", userValue);
+  const {user} = useSelector((state: RootState) => state.user.userValue);
 
   const handleLogout = async () => {
     const success = await handleLogoutAPI();
@@ -22,8 +21,8 @@ const UserMenu = () => {
       <Menu.Target>
         <UserButton
           image="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
-          name="Harriette Spoonlicker"
-          email="hspoonlicker@outlook.com"
+          name={user?.fullName}
+          email={user?.email}
         />
       </Menu.Target>
       <Menu.Dropdown>

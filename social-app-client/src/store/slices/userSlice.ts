@@ -4,7 +4,6 @@ import authorizedAxiosInstance from "../../config/authorizedAxios";
 const getUserProfile = createAsyncThunk("user/getUserProfile", async () => {
   try {
     const res = await authorizedAxiosInstance.get("/user");
-    console.log('resss', res);
     return res.data;
   } catch (error) {
     console.error(error);
@@ -35,12 +34,24 @@ const getUserFromRegister = createAsyncThunk(
   }
 );
 
+export interface User {
+  fullName: string;
+  email: string;
+}
+
 export interface UserState {
-  userValue: object;
+  userValue: {
+    user: User;
+  };
 }
 
 const initialState: UserState = {
-  userValue: {},
+  userValue: {
+    user: {
+      fullName: "",
+      email: "",
+    },
+  },
 };
 
 export const userSlice = createSlice({
@@ -49,9 +60,6 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getUserFromLogin.fulfilled, (state, action) => {
-        state.userValue = action.payload;
-      })
       .addCase(getUserProfile.fulfilled, (state, action) => {
         state.userValue = action.payload;
       });
