@@ -1,25 +1,36 @@
-import { Outlet, useLocation } from "react-router-dom";
+import {Outlet, useLocation} from "react-router-dom";
 import Sidebar from "../Sidebar";
 import Chat from "../../components/Chat";
-import { Widgets } from "../Widgets";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store/store";
-import { useEffect } from "react";
-import { getUserProfile } from "../../store/slices/userSlice";
+import {Widgets} from "../Widgets";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "../../store/store";
+import {useEffect} from "react";
+import {getUserProfile} from "../../store/slices/userSlice";
+import {LoadingOverlay} from "@mantine/core";
+import WhoToFollow from "../../components/WhoToFollow";
 
 const DefaultLayout = () => {
   const dispatch = useDispatch<AppDispatch>();
   const location = useLocation();
-  const {user} = useSelector((state: RootState) => state.user.userValue);
+  const {userValue, loading} = useSelector(
+    (state: RootState) => state.user
+  );
+  const {user} = userValue;
 
   useEffect(() => {
     if (!user || !user.fullName) {
       dispatch(getUserProfile());
     }
-  }, [dispatch, user]);
+  }, [dispatch, userValue.user]);
 
   return (
     <div className="flex min-h-screen justify-center max-w-[1500px] mx-auto">
+      <LoadingOverlay
+        visible={loading}
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+      />
+
       <div className=" bg-white md:block">
         <Sidebar activePath={location.pathname} />
       </div>
@@ -27,16 +38,17 @@ const DefaultLayout = () => {
         <Outlet />
       </div>
       {location.pathname === "/messages" ? (
-        <div>
+        <div className="w-[350px] hidden lg:block ml-4 mt-5 space-y-5">
           <Chat />
         </div>
       ) : (
-        <div className="w-[350px] hidden lg:block ml-4">
+        <div className="w-[350px] hidden lg:block ml-4 mt-5 space-y-5">
           <Widgets />
+          <WhoToFollow />
         </div>
       )}
     </div>
   );
-}
+};
 
-export default DefaultLayout
+export default DefaultLayout;

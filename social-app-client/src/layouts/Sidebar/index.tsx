@@ -71,7 +71,7 @@ const Sidebar = ({activePath}: ISidebarProps) => {
               </Link>
             </li>
           ))}
-          <li className="flex items-center p-2 text-red-500 rounded-full cursor-pointer hover:text-red-800 hover:bg-red-200 font-bold" onClick={handleLogout}>Đăng xuất</li>
+          <li className="flex items-center p-2 text-red-500 rounded-full cursor-pointer hover:text-red-800 hover:bg-red-200 font-bold" onClick={handleLogout}>Logout</li>
         </ul>
       </Drawer>
 

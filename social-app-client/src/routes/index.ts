@@ -1,6 +1,8 @@
 import config from "../config";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import Messages from "../pages/Messages";
+import Notifications from "../pages/Notifications";
 import Profile from "../pages/Profile";
 import Register from "../pages/Register";
 
@@ -29,9 +31,17 @@ const routes = [
     path: config.routes.profile,
     component: Profile,
     protected: true,
-    layout: null,
-  }
-
+  },
+  {
+    path: config.routes.messages,
+    component: Messages,
+    protected: true,
+  },
+  {
+    path: config.routes.notifications,
+    component: Notifications,
+    protected: true,
+  },
 ]
 
 export default routes;

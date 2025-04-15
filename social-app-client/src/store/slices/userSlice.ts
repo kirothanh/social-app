@@ -52,7 +52,9 @@ export interface User {
 export interface UserState {
   userValue: {
     user: User;
-  };
+  },
+  loading: boolean,
+  error: string
 }
 
 const initialState: UserState = {
@@ -62,6 +64,8 @@ const initialState: UserState = {
       email: "",
     },
   },
+  loading: true,
+  error: "",
 };
 
 export const userSlice = createSlice({
@@ -70,9 +74,15 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // get user profile 
       .addCase(getUserProfile.fulfilled, (state, action) => {
         state.userValue = action.payload;
-      });
+        state.loading = false;
+      })
+      .addCase(getUserProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = (action.payload as string) || "Failed to fetch user data";
+      })
   },
 });
 

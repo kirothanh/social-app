@@ -2,16 +2,18 @@ import {Group, Text, UnstyledButton} from "@mantine/core";
 import {forwardRef} from "react";
 import {PiDotsThreeOutlineFill} from "react-icons/pi";
 import BaseAvatar from "../Avatar";
+import BaseButton from "../Button";
 
 interface UserButtonProps extends React.ComponentPropsWithoutRef<"button"> {
   image: string;
   name: string;
   email: string;
   icon?: React.ReactNode;
+  buttonText?: React.ReactNode;
 }
 
 const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
-  ({image, name, email, icon, ...others}: UserButtonProps, ref) => {
+  ({image, name, email, icon, buttonText, ...others}: UserButtonProps, ref) => {
     return (
       <UnstyledButton
         ref={ref}
@@ -39,7 +41,7 @@ const UserButton = forwardRef<HTMLButtonElement, UserButtonProps>(
             </Text>
           </div>
 
-          {icon || <PiDotsThreeOutlineFill size={16} className="hidden sm:block"/>}
+          {buttonText ? <BaseButton className="!bg-black !text-white">{buttonText}</BaseButton> : icon ? icon : <PiDotsThreeOutlineFill size={16} className="hidden sm:block"/>}
         </Group>
       </UnstyledButton>
     );
