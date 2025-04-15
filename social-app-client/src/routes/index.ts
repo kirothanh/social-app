@@ -4,10 +4,14 @@ import Login from "../pages/Login";
 import Profile from "../pages/Profile";
 import Register from "../pages/Register";
 
+// undefined -> DefaultLayout
+// null -> NoLayout
+// somelayout -> Somelayout
+
 const routes = [
   {
     path: config.routes.home,
-    component: Home
+    component: Home,
   },
   // Auth
   {

@@ -4,7 +4,6 @@ import BaseTextInput from "../../components/Input";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {Controller, useForm} from "react-hook-form";
-// import authorizedAxiosInstance from "../../config/authorizedAxios";
 import {notifications} from "@mantine/notifications";
 import { getUserFromRegister } from "../../store/slices/userSlice";
 import { AppDispatch } from "../../store/store";
@@ -43,7 +42,7 @@ export default function Register() {
 
   const handleFormSubmit = handleSubmit(async (data) => {
     try {
-      const result =  dispatch(getUserFromRegister(data))
+      const result = dispatch(getUserFromRegister(data))
       const {success, message} = (await result).payload;
       if (success) {
         reset();
@@ -58,7 +57,8 @@ export default function Register() {
 
         navigate("/login");
       }
-    } catch (error: any) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error:any) {
       console.error("Error during register:", error
       );
       notifications.show({
@@ -75,7 +75,7 @@ export default function Register() {
     <div className="bg-gradient-to-br from-cyan-400/40 to-white h-screen flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         <h2 className="text-3xl font-bold text-center">Register</h2>
-        <form onSubmit={handleFormSubmit} className="mt-4 space-y-4">
+        <form onSubmit={handleFormSubmit}  className="mt-4 space-y-4">
           <Controller
             name="fullName"
             control={control}

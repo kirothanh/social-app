@@ -12,16 +12,15 @@ authorizedAxiosInstance.interceptors.request.use(
   function (config) {
     const accessToken = localStorage.getItem("accessToken");
 
-    if (!accessToken) {
-      location.href = "/login";
-      return Promise.reject(new Error("No access token, redirecting to login"));
-    }
+    // if (!accessToken) {
+    //   location.href = "/login";
+    //   return Promise.reject(new Error("No access token, redirecting to login"));
+    // }
 
     config.headers.Authorization = `Bearer ${accessToken}`;
     return config;
   },
   function (error) {
-    // Do something with request error
     return Promise.reject(error);
   }
 );

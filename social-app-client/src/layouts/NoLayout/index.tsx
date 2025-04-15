@@ -4,7 +4,7 @@ const NoLayout = () => {
   return (
     <>
     <Outlet />
-    <h1>hi</h1>
+    <h1>NoLayout</h1>
     </>
   )
 }

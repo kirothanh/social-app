@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authorizedAxiosInstance from "../../config/authorizedAxios";
 
@@ -24,12 +25,13 @@ const getUserFromLogin = createAsyncThunk(
 
 const getUserFromRegister = createAsyncThunk(
   "user/getUserFromRegister",
-  async (data: object) => {
+  async (data: object, { rejectWithValue }) => {
     try {
       const res = await authorizedAxiosInstance.post("/auth/register", data);
       return res.data;
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
+      return rejectWithValue(error.response?.data || { message: "Registration failed" });
     }
   }
 );

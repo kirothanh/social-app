@@ -4,6 +4,7 @@ module.exports = {
   getUser: async (req, res) => {
     try {
       const userId = req.userId;
+      console.log(userId)
 
       const user = await UserModel.findById(userId).select("-password");
 

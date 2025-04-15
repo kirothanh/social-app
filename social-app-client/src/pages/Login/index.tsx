@@ -52,6 +52,7 @@ export default function Login() {
         reset();
         navigate("/");
       } 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error:any) {
       console.error('Error during login:', error);
       notifications.show({
