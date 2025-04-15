@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { handleLogoutAPI, refreshTokenAPI } from "../api";
 
@@ -11,13 +12,16 @@ let refreshTokenPromise: Promise<unknown> | null = null;
 authorizedAxiosInstance.interceptors.request.use(
   function (config) {
     const accessToken = localStorage.getItem("accessToken");
+    const isAnonymous = config.headers?.["x-anonymous"] === "true";
 
-    // if (!accessToken) {
-    //   location.href = "/login";
-    //   return Promise.reject(new Error("No access token, redirecting to login"));
-    // }
+    if (!isAnonymous) {
+      if (!accessToken) {
+        location.href = "/login";
+        return Promise.reject(new Error("No access token, redirecting to login"));
+      }
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
 
-    config.headers.Authorization = `Bearer ${accessToken}`;
     return config;
   },
   function (error) {

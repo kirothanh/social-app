@@ -15,7 +15,11 @@ const getUserFromLogin = createAsyncThunk(
   "user/getUserFromLogin",
   async (data: object) => {
     try {
-      const res = await authorizedAxiosInstance.post("/auth/login", data);
+      const res = await authorizedAxiosInstance.post("/auth/login", data, {
+        headers: {
+          "x-anonymous": "true"
+        }
+      });
       return res.data;
     } catch (error) {
       console.log(error);
@@ -27,7 +31,11 @@ const getUserFromRegister = createAsyncThunk(
   "user/getUserFromRegister",
   async (data: object, { rejectWithValue }) => {
     try {
-      const res = await authorizedAxiosInstance.post("/auth/register", data);
+      const res = await authorizedAxiosInstance.post("/auth/register", data, {
+        headers: {
+          "x-anonymous": "true"
+        }
+      });
       return res.data;
     } catch (error: any) {
       console.log(error);
