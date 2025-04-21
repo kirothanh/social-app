@@ -34,11 +34,11 @@ const DefaultLayout = () => {
       <div className=" bg-white md:block">
         <Sidebar activePath={location.pathname} />
       </div>
-      <div className="w-full max-w-2xl border-x border-gray-200 p-2">
+      <div className="w-full max-w-2xl border-x border-gray-200 p-2 h-screen">
         <Outlet />
       </div>
       {location.pathname === "/messages" ? (
-        <div className="w-[350px] hidden lg:block ml-4 mt-5 space-y-5">
+        <div className="w-[350px] hidden lg:block space-y-5 h-screen">
           <Chat />
         </div>
       ) : (

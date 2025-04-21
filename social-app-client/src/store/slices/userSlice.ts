@@ -2,12 +2,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import authorizedAxiosInstance from "../../config/authorizedAxios";
 
-const getUserProfile = createAsyncThunk("user/getUserProfile", async () => {
+const getUserProfile = createAsyncThunk("user/getUserProfile", async (_, { rejectWithValue }) => {
   try {
     const res = await authorizedAxiosInstance.get("/user");
     return res.data;
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
+    return rejectWithValue(
+      error.response?.data?.message || "Lỗi không xác định từ server"
+    );
   }
 });
 

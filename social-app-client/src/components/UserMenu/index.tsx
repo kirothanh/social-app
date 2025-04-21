@@ -4,10 +4,14 @@ import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {RootState} from "../../store/store";
 import {handleLogoutAPI} from "../../api";
+import {PiDotsThreeOutlineFill} from "react-icons/pi";
+import {useState} from "react";
 
 const UserMenu = () => {
   const navigate = useNavigate();
-  const {user} = useSelector((state: RootState) => state.user.userValue);
+  const {userValue} = useSelector((state: RootState) => state.user);
+  const {user} = userValue;
+  const [opened, setOpened] = useState(false);
 
   const handleLogout = async () => {
     const success = await handleLogoutAPI();
@@ -17,13 +21,19 @@ const UserMenu = () => {
   };
 
   return (
-    <Menu withArrow>
+    <Menu withArrow opened={opened} onChange={setOpened}>
       <Menu.Target>
-        <UserButton
-          image="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
-          name={user?.fullName}
-          email={user?.email}
-        />
+        <div onClick={() => setOpened((o) => !o)}>
+          <UserButton
+            image="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
+            name={user?.fullName}
+            email={user?.email}
+            icon={
+              <PiDotsThreeOutlineFill size={16} className="hidden sm:block" />
+            }
+            className="!mb-3"
+          />
+        </div>
       </Menu.Target>
       <Menu.Dropdown>
         <Menu.Item color="red" onClick={handleLogout}>

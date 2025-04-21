@@ -77,7 +77,7 @@ const Sidebar = ({activePath}: ISidebarProps) => {
 
       <div className="hidden md:flex p-4 flex-col justify-between h-full">
         <div>
-          <h1 className="text-xl font-bold mb-6 p-2 cursor-pointer">X Clone</h1>
+          <h1 className="text-xl font-bold mb-6 p-2 cursor-pointer" onClick={() => navigate("/")}>X Clone</h1>
           <ul className="space-y-4 ">
             {menuItems.map((item) => (
               <li
