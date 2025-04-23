@@ -26,8 +26,8 @@ const UserMenu = () => {
         <div onClick={() => setOpened((o) => !o)}>
           <UserButton
             image="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
-            name={user?.fullName}
-            email={user?.email}
+            name={user?.fullName || "Tên không xác định"}
+            email={user?.email || "Email không xác định"}
             icon={
               <PiDotsThreeOutlineFill size={16} className="hidden sm:block" />
             }

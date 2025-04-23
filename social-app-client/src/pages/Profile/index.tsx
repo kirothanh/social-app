@@ -4,12 +4,41 @@ import BaseImage from "../../components/BaseImage";
 import { Tabs } from "@mantine/core";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import { useDisclosure } from "@mantine/hooks";
+import BaseModal from "../../components/Modal";
+import BaseTitle from "../../components/Title";
+import BaseTextArea from "../../components/Textarea";
 
 const Profile = () => {
+  const [opened, {open, close}] = useDisclosure(false);
   const { user } = useSelector((state: RootState) => state.user.userValue);
 
   return (
     <>
+      <BaseModal
+        opened={opened}
+        onClose={close}
+        overlayProps={{
+          backgroundOpacity: 0.55,
+          blur: 3,
+        }}
+      >
+        <form action="">
+          <BaseTitle order={3} className="!mb-2">Edit Profile</BaseTitle>
+          <BaseTextArea
+            placeholder="Post something here..."
+            autosize
+            minRows={6}
+            maxRows={18}
+          />
+          <div className="flex flex-end">
+            <BaseButton className="ml-auto mt-2 !bg-black !text-white">
+              Post
+            </BaseButton>
+          </div>
+        </form>
+      </BaseModal>
+
       <div>
         <BaseImage
           radius="md"
@@ -26,7 +55,7 @@ const Profile = () => {
           className="absolute -top-20 !rounded-full border-3 border-white shadow-md"
         />
 
-        <BaseButton variant="filled" color="rgba(0, 0, 0, 1)">
+        <BaseButton variant="filled" color="rgba(0, 0, 0, 1)" onClick={open}>
           Edit profile
         </BaseButton>
       </div>
