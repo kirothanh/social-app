@@ -15,13 +15,16 @@ const DefaultLayout = () => {
   const {userValue, loading} = useSelector(
     (state: RootState) => state.user
   );
-  const {user} = userValue;
 
   useEffect(() => {
-    if (!user || !user.fullName) {
-      dispatch(getUserProfile());
+    if(userValue) {
+      localStorage.setItem("userId", userValue._id);
     }
-  }, [dispatch, userValue.user]);
+  }, [userValue]);
+
+  useEffect(() => {
+    dispatch(getUserProfile());
+  }, [dispatch]);
 
   return (
     <div className="flex min-h-screen justify-center max-w-[1500px] mx-auto">

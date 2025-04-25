@@ -48,24 +48,22 @@ const getUserFromRegister = createAsyncThunk(
 );
 
 export interface User {
+  _id: string;
   fullName: string;
   email: string;
 }
 
 export interface UserState {
-  userValue: {
-    user: User;
-  },
+  userValue: User,
   loading: boolean,
   error: string
 }
 
 const initialState: UserState = {
   userValue: {
-    user: {
-      fullName: "",
-      email: "",
-    },
+    _id: "",
+    fullName: "",
+    email: "",
   },
   loading: true,
   error: "",
@@ -78,6 +76,10 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // get user profile 
+      .addCase(getUserProfile.pending, (state) => {
+        state.loading = true;
+        state.error = "";
+      })
       .addCase(getUserProfile.fulfilled, (state, action) => {
         state.userValue = action.payload;
         state.loading = false;

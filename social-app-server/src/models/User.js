@@ -25,8 +25,8 @@ const UserSchema = mongoose.Schema(
     worksAt: String,
     relationship: String,
     country: String,
-    followers: [],
-    following: [],
+    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
   { timestamps: true }
 );

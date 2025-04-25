@@ -1,4 +1,4 @@
-import {Group, Text} from "@mantine/core";
+import {Text} from "@mantine/core";
 import BaseAvatar from "../Avatar";
 import BaseButton from "../Button";
 
@@ -19,33 +19,35 @@ const UserButton = ({
   icon,
   buttonText,
   className,
-  onClick
+  onClick,
 }: UserButtonProps) => {
-  
   return (
-    <BaseButton
-      className={`!w-full !h-full !py-1 !text-black !border-none !bg-white  hover:!bg-gray-300 ${className}`}
+    <div
+      className={`flex items-center justify-between gap-3 w-full px-2 py-2 rounded hover:bg-gray-100 ${className}`}
     >
-      <Group>
-        <BaseAvatar src={image} radius="xl" className="float-left"/>
-
-        <div style={{flex: 1}}>
-          <Text size="sm" fw={500} className="hidden sm:block">
+      <div className="flex items-center gap-3">
+        <BaseAvatar src={image} radius="xl" className="w-10 h-10" />
+        <div className="flex flex-col">
+          <Text size="sm" fw={500}>
             {name}
           </Text>
-
-          <Text c="dimmed" size="xs" className="hidden sm:block">
+          <Text c="dimmed" size="xs">
             {email}
           </Text>
         </div>
+      </div>
 
-        <BaseButton className={`${buttonText ? '!block' : '!hidden'} !bg-black !text-white`} onClick={onClick}>
+      {buttonText && (
+        <BaseButton
+          className="!bg-black !text-white !text-xs !px-3 !py-1"
+          onClick={onClick}
+        >
           {buttonText}
         </BaseButton>
+      )}
 
-        <div className={`${icon ? '!block' : '!hidden'}`}>{icon}</div>
-      </Group>
-    </BaseButton>
+      {icon && <div>{icon}</div>}
+    </div>
   );
 };
 

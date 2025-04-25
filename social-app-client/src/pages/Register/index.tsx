@@ -1,17 +1,17 @@
 import {useNavigate} from "react-router-dom";
 import BaseButton from "../../components/Button";
 import BaseTextInput from "../../components/Input";
-import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {Controller, useForm} from "react-hook-form";
 import {notifications} from "@mantine/notifications";
-import { getUserFromRegister } from "../../store/slices/userSlice";
-import { AppDispatch } from "../../store/store";
-import { useDispatch } from "react-redux";
+import {getUserFromRegister} from "../../store/slices/userSlice";
+import {AppDispatch} from "../../store/store";
+import {useDispatch} from "react-redux";
 import BasePasswordInput from "../../components/PasswordInput";
+import registerSchema from "../../schema/registerSchema";
 
 export default function Register() {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const {
@@ -25,24 +25,12 @@ export default function Register() {
       email: "",
       password: "",
     },
-    resolver: yupResolver(
-      yup.object().shape({
-        fullName: yup.string().required("Full name is required"),
-        email: yup
-          .string()
-          .matches(
-            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-            "Invalid email format"
-          )
-          .required("Email is required"),
-        password: yup.string().min(6).required("Password is required"),
-      })
-    ),
+    resolver: yupResolver(registerSchema),
   });
 
   const handleFormSubmit = handleSubmit(async (data) => {
     try {
-      const result = dispatch(getUserFromRegister(data))
+      const result = dispatch(getUserFromRegister(data));
       const {success, message} = (await result).payload;
       if (success) {
         reset();
@@ -57,10 +45,9 @@ export default function Register() {
 
         navigate("/login");
       }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error:any) {
-      console.error("Error during register:", error
-      );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error("Error during register:", error);
       notifications.show({
         title: "Register Error",
         message: error?.response?.data?.message || "An error occurred",
@@ -75,7 +62,7 @@ export default function Register() {
     <div className="bg-gradient-to-br from-cyan-400/40 to-white h-screen flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
         <h2 className="text-3xl font-bold text-center">Register</h2>
-        <form onSubmit={handleFormSubmit}  className="mt-4 space-y-4">
+        <form onSubmit={handleFormSubmit} className="mt-4 space-y-4">
           <Controller
             name="fullName"
             control={control}

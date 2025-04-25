@@ -10,7 +10,6 @@ import {useState} from "react";
 const UserMenu = () => {
   const navigate = useNavigate();
   const {userValue} = useSelector((state: RootState) => state.user);
-  const {user} = userValue;
   const [opened, setOpened] = useState(false);
 
   const handleLogout = async () => {
@@ -26,8 +25,8 @@ const UserMenu = () => {
         <div onClick={() => setOpened((o) => !o)}>
           <UserButton
             image="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-8.png"
-            name={user?.fullName || "Tên không xác định"}
-            email={user?.email || "Email không xác định"}
+            name={userValue?.fullName || "Tên không xác định"}
+            email={userValue?.email || "Email không xác định"}
             icon={
               <PiDotsThreeOutlineFill size={16} className="hidden sm:block" />
             }

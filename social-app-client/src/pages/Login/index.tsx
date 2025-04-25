@@ -1,66 +1,62 @@
 import {useNavigate} from "react-router-dom";
 import BaseButton from "../../components/Button";
 import BaseTextInput from "../../components/Input";
-import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {Controller, useForm} from "react-hook-form";
-import { notifications } from '@mantine/notifications';
-import { useDispatch } from "react-redux";
-import { getUserFromLogin } from "../../store/slices/userSlice";
-import { AppDispatch } from "../../store/store";
+import {notifications} from "@mantine/notifications";
+import {useDispatch} from "react-redux";
+import {getUserFromLogin} from "../../store/slices/userSlice";
+import {AppDispatch} from "../../store/store";
 import BasePasswordInput from "../../components/PasswordInput";
+import loginSchema from "../../schema/loginSchema";
 
 export default function Login() {
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const {
     control,
     formState: {errors},
     handleSubmit,
-    reset
+    reset,
   } = useForm({
     defaultValues: {
       email: "",
       password: "",
     },
-    resolver: yupResolver(
-      yup.object().shape({
-        email: yup.string().email().required("Email is required"),
-        password: yup.string().min(6).required("Password is required"),
-      })
-    ),
+    resolver: yupResolver(loginSchema),
   });
 
   const handleFormSubmit = handleSubmit(async (data) => {
     try {
-      const result =  dispatch(getUserFromLogin(data))
-      const { accessToken, refreshToken, success, message } = (await result).payload;
-  
+      const result = dispatch(getUserFromLogin(data));
+      const {accessToken, refreshToken, success, message} = (await result)
+        .payload;
+
       if (success) {
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("refreshToken", refreshToken);
-        
+
         notifications.show({
           title: "Login Successful",
           message: message,
           color: "teal",
           autoClose: 3000,
-          position: 'top-right',
+          position: "top-right",
         });
-  
+
         reset();
         navigate("/");
-      } 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error:any) {
-      console.error('Error during login:', error);
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.error("Error during login:", error);
       notifications.show({
         title: "Login Error",
-        message:  error?.response?.data?.message || "An error occurred",
+        message: error?.response?.data?.message || "An error occurred",
         color: "red",
         autoClose: 3000,
-        position: 'top-right',
+        position: "top-right",
       });
     }
   });
@@ -117,8 +113,7 @@ export default function Login() {
           </span>{" "}
         </p>
       </div>
-      <div>
-    </div>
+      <div></div>
     </div>
   );
 }
